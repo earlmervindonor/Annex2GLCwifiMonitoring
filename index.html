@@ -17,16 +17,15 @@
                     <small>Network Monitor</small>
                 </div>
             </div>
-
             <nav>
                 <button class="nav-button active" onclick="showAllDevices(this)">◉ All Devices</button>
                 <button class="nav-button" onclick="filterByArea('Annex 2 4th Floor', this)">◉ Annex 2 4th Floor</button>
                 <button class="nav-button" onclick="filterByArea('Annex 2 3rd Floor', this)">◉ Annex 2 3rd Floor</button>
+                <div class="sidebar-bottom">
+                    <button class="refresh-button" onclick="loadDevices()">↻ Refresh Data</button>
+                </div>
             </nav>
         </aside>
-            <div class="sidebar-bottom">
-                <button class="refresh-button" onclick="loadDevices()">↻ Refresh Data</button>
-            </div>
         <!-- MAIN CONTENT -->
         <main class="main">
             <!-- TOPBAR -->
@@ -40,7 +39,6 @@
                     <button class="add-button" onclick="openAddModal()">+ Add Device</button>
                 </div>
             </header>
-
             <!-- STATISTICS -->
             <section class="stats">
                 <div class="stat-card">
@@ -60,7 +58,6 @@
                     <div id="unknownDevices" class="stat-number">0</div>
                 </div>
             </section>
-
             <!-- SEARCH -->
             <section class="toolbar">
                 <input type="text" id="searchInput" placeholder="Search device, IP address, or area..." oninput="displayDevices()">
@@ -71,7 +68,6 @@
                     <option value="Unknown">Unknown</option>
                 </select>
             </section>
-
             <!-- DEVICE TABLE -->
             <section class="table-container">
                 <div class="table-header">
@@ -95,7 +91,6 @@
             </section>
         </main>
     </div>
-
     <!-- ADD / EDIT MODAL -->
     <div id="deviceModal" class="modal">
         <div class="modal-content">
@@ -122,7 +117,26 @@
             </form>
         </div>
     </div>
-
     <script src="script.js"></script>
+    <script>
+        function setActiveNav(button) {
+            document.querySelectorAll(".nav-button").forEach(function(btn) {
+                btn.classList.remove("active");
+            });
+            if (button) {
+                button.classList.add("active");
+            }
+        }
+        function showAllDevices(button) {
+            setActiveNav(button);
+            currentArea = "All";
+            displayDevices();
+        }
+        function filterByArea(area, button) {
+            setActiveNav(button);
+            currentArea = area;
+            displayDevices();
+        }
+    </script>
 </body>
 </html>
