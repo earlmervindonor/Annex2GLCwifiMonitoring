@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLC Router Monitoring System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">◉</div>
+                <div>
+                    <h2>GLC</h2>
+                    <small>Network Monitor</small>
+                </div>
+            </div>
+
+            <nav>
+                <button class="nav-button active" onclick="showAllDevices(this)">◉ All Devices</button>
+                <button class="nav-button" onclick="filterByArea('Annex 2 4th Floor', this)">◉ Annex 2 4th Floor</button>
+                <button class="nav-button" onclick="filterByArea('Annex 2 3rd Floor', this)">◉ Annex 2 3rd Floor</button>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <!-- TOPBAR -->
+            <header class="topbar">
+                <div>
+                    <h1>Network Monitoring</h1>
+                    <p>Monitor your routers and network devices</p>
+                </div>
+                <div class="top-actions">
+                    <div id="connectionStatus" class="connection-status">● Connecting...</div>
+                    <button class="add-button" onclick="openAddModal()">+ Add Device</button>
+                </div>
+            </header>
+
+            <!-- STATISTICS -->
+            <section class="stats">
+                <div class="stat-card">
+                    <div class="stat-label">TOTAL DEVICES</div>
+                    <div id="totalDevices" class="stat-number">0</div>
+                </div>
+                <div class="stat-card online-card">
+                    <div class="stat-label">ONLINE</div>
+                    <div id="onlineDevices" class="stat-number">0</div>
+                </div>
+                <div class="stat-card offline-card">
+                    <div class="stat-label">OFFLINE</div>
+                    <div id="offlineDevices" class="stat-number">0</div>
+                </div>
+                <div class="stat-card unknown-card">
+                    <div class="stat-label">UNKNOWN</div>
+                    <div id="unknownDevices" class="stat-number">0</div>
+                </div>
+            </section>
+
+            <!-- SEARCH -->
+            <section class="toolbar">
+                <input type="text" id="searchInput" placeholder="Search device, IP address, or area..." oninput="displayDevices()">
+                <select id="statusFilter" onchange="displayDevices()">
+                    <option value="All">All Status</option>
+                    <option value="Online">Online</option>
+                    <option value="Offline">Offline</option>
+                    <option value="Unknown">Unknown</option>
+                </select>
+            </section>
+
+            <!-- DEVICE TABLE -->
+            <section class="table-container">
+                <div class="table-header">
+                    <h2>Devices</h2>
+                    <span id="lastUpdated">Last updated: Never</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DEVICE</th>
+                            <th>IP ADDRESS</th>
+                            <th>AREA / FLOOR</th>
+                            <th>STATUS</th>
+                            <th>LAST CHECKED</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deviceTable"></tbody>
+                </table>
+                <div id="emptyMessage" class="empty-message">No devices found.</div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ADD / EDIT MODAL -->
+    <div id="deviceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Device</h2>
+                <button class="close-button" onclick="closeModal()">×</button>
+            </div>
+            <form id="deviceForm" onsubmit="saveDevice(event)">
+                <input type="hidden" id="deviceId">
+                <label>Device Name</label>
+                <input type="text" id="deviceName" placeholder="Example: Main Router" required>
+                <label>IP Address</label>
+                <input type="text" id="deviceIP" placeholder="Example: 10.2.3.1" required>
+                <label>Area / Floor</label>
+                <select id="deviceArea" required>
+                    <option value="">Select Area / Floor</option>
+                    <option value="Annex 2 4th Floor">Annex 2 4th Floor</option>
+                    <option value="Annex 2 3rd Floor">Annex 2 3rd Floor</option>
+                </select>
+                <div class="form-buttons">
+                    <button type="button" class="cancel-button" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="save-button">Save Device</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
